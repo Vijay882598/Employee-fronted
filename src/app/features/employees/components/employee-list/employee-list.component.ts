@@ -110,7 +110,7 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     });
 
     // Initial load
-    this.service.refreshEmployees();
+    this.service.loadEmployees();
   }
 
   ngOnDestroy(): void {
