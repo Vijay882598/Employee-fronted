@@ -1,0 +1,99 @@
+<div class="container">
+  <mat-card class="employee-card">
+    <mat-card-header>
+      <mat-card-title class="title">
+        <mat-icon>people_alt</mat-icon>
+        Employee Command Center
+      </mat-card-title>
+      <mat-card-subtitle>Manage your team efficiently</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="table-container">
+      <button mat-raised-button color="primary" (click)="openDialog()"
+        class="add-btn">
+        <mat-icon>add</mat-icon>
+        Add Employee
+      </button>
+
+      <table mat-table [dataSource]="dataSource" class="employee-table">
+
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let employee"> {{employee.id ||
+            employee._id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let employee">
+            <strong>{{employee.name}}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let employee"> {{employee.email}} </td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef> Phone </th>
+          <td mat-cell *matCellDef="let employee"> {{employee.phone}} </td>
+        </ng-container>
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef> Role </th>
+          <td mat-cell *matCellDef="let employee">
+            <span class="role-badge"
+              [ngClass]="{
+            'admin': employee.role === 'Admin',
+            'developer': employee.role === 'Developer',
+            'designer': employee.role === 'Designer',
+            'default': !['Admin', 'Developer', 'Designer'].includes(employee.role)
+          }">
+              {{ employee.role | RoleColorPipe }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Status </th>
+          <td mat-cell *matCellDef="let employee">
+            <span class="status-badge"
+              [appStatusHighlight]="employee.status">
+              {{ employee.status ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let employee">
+            <button mat-icon-button color="primary"
+              (click)="openDialog(employee)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn"
+              (click)="delete(employee.id || employee._id)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          class="table-row"></tr>
+      </table>
+
+      <!-- Empty State -->
+      <div class="no-data" *ngIf="dataSource.length === 0">
+        <mat-icon class="big-icon">sentiment_very_dissatisfied</mat-icon>
+        <p>No employees yet. Add your first team member!</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
