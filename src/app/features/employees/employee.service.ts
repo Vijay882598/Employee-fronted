@@ -19,7 +19,7 @@ export class EmployeeService {
   }
 
   loadEmployees(): void {
-    this.http.get<Employee[]>(environment.apiBaseUrl).subscribe({
+    this.http.get<Employee[]>(`${environment.apiBaseUrl}/api/employees`).subscribe({
       next: (data) => this.employeesSubject.next(data),
       error: (err) => console.error('Error loading employees', err)
     });
@@ -30,7 +30,7 @@ export class EmployeeService {
   }
 
   addEmployee(emp: Employee): void {
-    this.http.post<Employee>(`${environment.apiBaseUrl}create`, emp).subscribe({
+    this.http.post<Employee>(`${`${environment.apiBaseUrl}/api/employees/`}create`, emp).subscribe({
       next: (newEmp) => {
         const current = this.employeesSubject.value;
         this.employeesSubject.next([...current, newEmp]);
@@ -40,7 +40,7 @@ export class EmployeeService {
 
   updateEmployee(id: number, emp: Partial<Employee>): void {
     console.log("is")
-    this.http.put<Employee>(`${environment.apiBaseUrl}${id}`, emp).subscribe({
+    this.http.put<Employee>(`${`${environment.apiBaseUrl}/api/employees/`}${id}`, emp).subscribe({
       next: () => {
         const updated = this.employeesSubject.value.map(e =>
           e._id === id ? { ...e, ...emp } : e
@@ -51,7 +51,7 @@ export class EmployeeService {
   }
 
   deleteEmployee(id: number): void {
-    this.http.delete(`${environment.apiBaseUrl}${id}`).subscribe({
+    this.http.delete(`${`${environment.apiBaseUrl}/api/employees/`}${id}`).subscribe({
       next: () => {
         this.employeesSubject.next(
           this.employeesSubject.value.filter(e => e._id !== id)
