@@ -1,19 +1,30 @@
-import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[appStatusHighlight]',
   standalone: true
 })
-export class DirectivesDirective implements OnInit {
-  @Input() appStatusHighlight: boolean = false;
+export class DirectivesDirective implements OnInit, OnChanges {
+  @Input() appStatusHighlight!: string;
   constructor(private el: ElementRef) { }
-  ngOnInit(): void {
-    if (this.appStatusHighlight) {
-      this.el.nativeElement.style.backgroundColor = '#c8e6c9';
-      this.el.nativeElement.style.color = '#256029';
+  ngOnChanges(): void {
+    const element = this.el.nativeElement;
+    element.style.padding = '8px 18px';
+    element.style.borderRadius = '30px';
+    element.style.fontWeight = '700';
+    element.style.fontSize = '13px';
+    element.style.display = 'inline-block';
+
+    if (this.appStatusHighlight === 'true') {
+      element.style.backgroundColor = '#c8e6c9';
+      element.style.color = '#256029';
     } else {
-      this.el.nativeElement.style.backgroundColor = '#ffcdd2';
-      this.el.nativeElement.style.color = '#b71c1c';
+      element.style.backgroundColor = '#ffcdd2';
+      element.style.color = '#b71c1c';
     }
+  }
+  
+  ngOnInit(): void {
+
   }
 }

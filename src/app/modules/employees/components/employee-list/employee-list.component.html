@@ -1,3 +1,35 @@
+<header class="app-header">
+  <div class="header-content">
+    <div class="logo-section">
+      <mat-icon class="logo-icon">dashboard</mat-icon>
+      <h1 class="app-title">TeamHub</h1>
+    </div>
+    <div class="user-section">
+      <span class="welcome-text">Welcome back,</span>
+      <button mat-button class="user-menu" [matMenuTriggerFor]="userMenu">
+        <img src="https://i.pravatar.cc/150?img=68" alt="User"
+          class="user-avatar" />
+        <span class="user-name">Admin User</span>
+        <mat-icon class="dropdown-icon">keyboard_arrow_down</mat-icon>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item class="logout-btn">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</header>
 <div class="container">
   <mat-card class="employee-card">
     <mat-card-header>
@@ -17,14 +49,12 @@
 
       <table mat-table [dataSource]="dataSource" class="employee-table">
 
-        <!-- ID Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef> ID </th>
           <td mat-cell *matCellDef="let employee"> {{employee.id ||
             employee._id}} </td>
         </ng-container>
 
-        <!-- Name Column -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td mat-cell *matCellDef="let employee">
@@ -32,44 +62,35 @@
           </td>
         </ng-container>
 
-        <!-- Email Column -->
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef> Email </th>
           <td mat-cell *matCellDef="let employee"> {{employee.email}} </td>
         </ng-container>
 
-        <!-- Phone Column -->
         <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef> Phone </th>
-          <td mat-cell *matCellDef="let employee"> {{employee.phone}} </td>
+          <td mat-cell *matCellDef="let employee"> {{employee.phone |
+            phoneNumber }} </td>
         </ng-container>
         <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef> Role </th>
           <td mat-cell *matCellDef="let employee">
             <span class="role-badge"
-              [ngClass]="{
-            'admin': employee.role === 'Admin',
-            'developer': employee.role === 'Developer',
-            'designer': employee.role === 'Designer',
-            'default': !['Admin', 'Developer', 'Designer'].includes(employee.role)
-          }">
-              {{ employee.role | RoleColorPipe }}
+              [innerHTML]="employee.role | RoleColorPipe">
             </span>
           </td>
         </ng-container>
 
-        <!-- Status Column -->
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
           <td mat-cell *matCellDef="let employee">
             <span class="status-badge"
               [appStatusHighlight]="employee.status">
-              {{ employee.status ? 'Active' : 'Inactive' }}
+              {{ employee.status == 'true' ? 'Active' : 'Inactive' }}
             </span>
           </td>
         </ng-container>
 
-        <!-- Actions Column -->
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
           <td mat-cell *matCellDef="let employee">
@@ -89,7 +110,6 @@
           class="table-row"></tr>
       </table>
 
-      <!-- Empty State -->
       <div class="no-data" *ngIf="dataSource.length === 0">
         <mat-icon class="big-icon">sentiment_very_dissatisfied</mat-icon>
         <p>No employees yet. Add your first team member!</p>

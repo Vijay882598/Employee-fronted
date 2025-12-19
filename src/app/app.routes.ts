@@ -4,7 +4,7 @@ export const routes: Routes = [
      {
     path: 'employees',
     loadChildren: () =>
-      import('./features/employees/components/components-routing.module').then(m => m.EMPLOYEE_ROUTES)
+      import('./modules/employees/components/employee-routing.module').then(m => m.EMPLOYEE_ROUTES)
   },
   {
     path: '',

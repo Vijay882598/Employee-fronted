@@ -1,0 +1,98 @@
+<div class="emp-dialog">
+  <div class="emp-header">
+    <div class="title">
+      <div class="avatar">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2>{{ isEdit ? 'Edit Employee' : 'Add Employee' }}</h2>
+        <p>Fill in the details below to manage employee profile</p>
+      </div>
+    </div>
+    <!-- <button mat-icon-button (click)="onCancel()" class="close-btn">
+      <mat-icon>close</mat-icon>
+    </button> -->
+  </div>
+  <mat-dialog-content class="emp-body">
+    <form [formGroup]="form">
+      <div class="grid">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Name</mat-label>
+          <mat-icon matPrefix>badge</mat-icon>
+          <input matInput formControlName="name" placeholder="John Doe" />
+          <mat-error
+            *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix>mail</mat-icon>
+          <input matInput formControlName="email" type="email"
+            placeholder="john@example.com" />
+          <mat-error
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Phone</mat-label>
+          <mat-icon matPrefix>phone</mat-icon>
+          <input matInput formControlName="phone" placeholder="9876543210" />
+          <mat-error
+            *ngIf="form.get('phone')?.invalid && form.get('phone')?.touched">
+            {{ getErrorMessage('phone') }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Role</mat-label>
+          <mat-icon matPrefix>work</mat-icon>
+          <mat-select formControlName="role">
+            <mat-option value="Admin">Administrator</mat-option>
+            <mat-option value="User">Regular User</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="form.get('role')?.invalid && form.get('role')?.touched">
+            Please select a role
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="status-row">
+        <span class="status-label">Account Status</span>
+
+        <div class="status-chip"
+          [class.active]="form.get('status')?.value"
+          [class.inactive]="!form.get('status')?.value">
+          <mat-icon class="chip-icon">
+            {{ form.get('status')?.value ? 'check_circle' : 'cancel' }}
+          </mat-icon>
+          {{ form.get('status')?.value ? 'Active' : 'Inactive' }}
+        </div>
+        <mat-slide-toggle color="primary" formControlName="status">
+          {{ form.get('status')?.value ? 'Active' : 'Inactive' }}
+        </mat-slide-toggle>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end" class="emp-footer">
+    <button mat-stroked-button (click)="onCancel()" class="cancel-btn">
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="form.invalid || isSubmitting"
+      class="submit-btn">
+      <span *ngIf="!isSubmitting">
+        {{ isEdit ? 'Update Employee' : 'Add Employee' }}
+      </span>
+    </button>
+  </mat-dialog-actions>
+
+</div>
